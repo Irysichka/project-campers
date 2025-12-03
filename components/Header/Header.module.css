@@ -1,0 +1,26 @@
+.section{
+    background-color: var(--inputs);
+padding-top: 24px;
+padding-bottom: 24px;
+}
+.header{
+    display: flex;
+    gap: 450px;
+}
+
+.navigation{
+    display: flex;
+    gap: 32px ;
+}
+
+.navigationLink{
+line-height: 150%;
+color: var(--main);
+}
+
+
+.navigationLink:hover,
+.navigationLink:focus,
+.navigationLink:active {
+    color: var(--button-hover);
+}
