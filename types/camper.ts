@@ -44,12 +44,12 @@ export interface Review{
 
 export type EquipmentFilter =
   | "AC"
-  | "automatic"
-  | "kitchen"
+  | "Automatic"
+  | "Kitchen"
   | "TV"
-    | "bathroom";
+    | "Bathroom";
 
-export type EquipmentKey = "AC" | "automatic" | "kitchen" | "TV" | "bathroom";
+export type EquipmentKey = "AC" | "Automatic" | "Kitchen" | "TV" | "bathroom";
   
 export type VehicleType = "alcove" | "fullyIntegrated" | "panelTruck" | "";
 

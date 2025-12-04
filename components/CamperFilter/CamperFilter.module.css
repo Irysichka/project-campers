@@ -1,0 +1,112 @@
+.section{
+   min-width: 360px; 
+   padding-top: 48px;
+}
+.location{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+}
+.label{
+line-height: 150%;
+    color: var(--gray);
+}
+
+.input{
+background-color: var(--inputs);
+border-radius: 12px;
+padding: 18px 218px 18px 20px;
+position: relative;
+border: none;
+margin-bottom: 40px;
+
+}
+/* .spanFilter{
+    top: 150px;
+    position: absolute;
+} */
+
+.filt{
+    line-height: 150%;
+        color: var(--text);
+        margin-bottom: 32px;
+}
+
+.vehivEquip{
+
+}
+.vehText{
+    margin-bottom: 24px;
+    font-weight: 600;
+        font-size: 20px;
+        line-height: 120%;
+}
+.vehList{
+    border-top: 1px solid var(--gray-light);
+    padding-top: 24px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap:8px 12px;
+}
+
+.vehItem{
+position: relative;
+border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding:16px 40px ;
+    width: 112px;
+    height: 96px;
+}
+.vehItem:hover,
+.vehItem:focus,
+.vehItem:active{
+border: 1px solid var(--button);
+}
+
+.vehItemFul{
+position: relative;
+    border: 1px solid var(--gray-light);
+    border-radius: 12px;
+    padding-top: 4px;
+    text-align: center;
+    width: 112px;
+    height: 96px;
+}
+
+.checkboxHidden {
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+}
+
+.checkboxLabel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+.spanCheckbox{
+    margin-bottom: 8px;
+}
+.butSearch{
+border-radius: 200px;
+    padding: 16px 60px;
+    background-color: var(--button);
+    border: none;
+    color: var(--white);
+    margin-top: 40px;
+}
+
+
+.textType{
+font-weight: 600;
+    font-size: 20px;
+    line-height: 120%;
+    margin-top:32px ;
+    margin-bottom: 24px;
+}
+.spanCheckboxFul{
+}

@@ -1,6 +1,57 @@
 "use client";
 
-import { useCampersStore, FiltersState, EquipmentKey, VehicleType,} from "@/lib/store/camperStore";
+import {
+  useCampersStore,
+  FiltersState,
+  EquipmentKey,
+  VehicleType,
+} from "@/lib/store/camperStore";
+
+import css from "./CamperFilter.module.css"
+
+type CheckboxProps = {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+};
+
+type RadioProps = {
+  name: string;
+  label: string;
+  value: string;
+  checked: boolean;
+  onChange: () => void;
+};
+
+function FilterCheckbox({ label, checked, onChange }: CheckboxProps) {
+  return (
+    <label className={css.checkboxLabel}>
+      <input
+        type="checkbox"
+        checked={checked}
+        onChange={onChange}
+        className={css.checkboxHidden}
+      />
+      <span>{label}</span>
+    </label>
+  );
+}
+
+function FilterRadio({ name, label, value, checked, onChange }: RadioProps) {
+  return (
+    <label className={css.checkboxLabel}>
+      <input
+        type="radio"
+        name={name}
+        value={value}
+        checked={checked}
+        onChange={onChange}
+        className={css.checkboxHidden}
+      />
+      <span>{label}</span>
+    </label>
+  );
+}
 
 export default function Filters() {
   const draftFilters = useCampersStore((state) => state.draftFilters);
@@ -14,10 +65,13 @@ export default function Filters() {
     });
   };
 
+  const currentEquipment = draftFilters.equipment ?? [];
+
   const toggleEquipment = (key: EquipmentKey) => {
-    const current = draftFilters.equipment ?? [];
-    const exists = current.includes(key);
-    const next = exists ? current.filter((x) => x !== key) : [...current, key];
+    const exists = currentEquipment.includes(key);
+    const next = exists
+      ? currentEquipment.filter((item) => item !== key)
+      : [...currentEquipment, key];
     update({ equipment: next });
   };
 
@@ -26,9 +80,9 @@ export default function Filters() {
   };
 
   const toggleTransmissionAutomatic = () => {
+    const isAutomatic = draftFilters.transmission === "automatic";
     update({
-      transmission:
-        draftFilters.transmission === "automatic" ? undefined : "automatic",
+      transmission: isAutomatic ? undefined : "automatic",
     });
   };
 
@@ -36,73 +90,146 @@ export default function Filters() {
     applyFilters();
   };
 
+  const isAutomaticChecked = draftFilters.transmission === "automatic";
+
   return (
-    <aside>
-      <div>
-        <label>Location</label>
+    <div className={css.section}>
+      {/* Location */}
+      <div className={css.location}>
+        <label className={css.label}>Location</label>
+        {/* <svg className={css.spanFilter} width="16" height="16" aria-hidden="true">
+        <use href="/sprite.svg#icon-location" />
+      </svg> */}
         <input
+          className={css.input}
           placeholder="Kyiv, Ukraine"
           value={draftFilters.location ?? ""}
           onChange={(e) => update({ location: e.target.value })}
-        />
+        >
+        </input>
       </div>
 
       <div>
-        <p>Filters</p>
+        <p className={css.filt}>Filters</p>
       </div>
 
-      <section>
-        <h3>Vehicle equipment</h3>
+      <section className={css.vehivEquip}>
+        <h3 className={css.vehText}>Vehicle equipment</h3>
 
-        <div>
-          <button type="button" onClick={() => toggleEquipment("AC")}>
-            AC
-          </button>
+        <ul className={css.vehList}>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-windy" />
+      </svg>
+            <FilterCheckbox
+              label="AC"
+              checked={currentEquipment.includes("AC")}
+              onChange={() => toggleEquipment("AC")}
+            />
+            
+          </li>
 
-          <button type="button" onClick={toggleTransmissionAutomatic}>
-            Automatic
-          </button>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-cubs" />
+      </svg>
+            <FilterCheckbox
+              label="Automatic"
+              checked={isAutomaticChecked}
+              onChange={toggleTransmissionAutomatic}
+            />
+            
+          </li>
 
-          <button type="button" onClick={() => toggleEquipment("kitchen")}>
-            Kitchen
-          </button>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-cup-hot" />
+      </svg>
+            <FilterCheckbox
+              label="Kitchen"
+              checked={currentEquipment.includes("kitchen")}
+              onChange={() => toggleEquipment("kitchen")}
+            />
+            
+          </li>
 
-          <button type="button" onClick={() => toggleEquipment("TV")}>
-            TV
-          </button>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-laptop" />
+      </svg>
+            <FilterCheckbox
+              label="TV"
+              checked={currentEquipment.includes("TV")}
+              onChange={() => toggleEquipment("TV")}
+            />
+            
+          </li>
 
-          <button type="button" onClick={() => toggleEquipment("bathroom")}>
-            Bathroom
-          </button>
-        </div>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-bath" />
+      </svg>
+            <FilterCheckbox
+              label="Bathroom"
+              checked={currentEquipment.includes("bathroom")}
+              onChange={() => toggleEquipment("bathroom")}
+            />
+            
+          </li>
+        </ul>
       </section>
 
+      {/* Vehicle type */}
       <section>
-        <h3>Vehicle type</h3>
+        <h3 className={css.textType}>Vehicle type</h3>
+        <ul className={css.vehList}>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-quater" />
+      </svg>
+            <FilterRadio
+              name="vehicleType"
+              label="Van"
+              value="panelTruck"
+              checked={draftFilters.vehicleType === "panelTruck"}
+              onChange={() => setVehicleType("panelTruck")}
+            />
+          </li>
 
-        <div>
-          <button type="button" onClick={() => setVehicleType("panelTruck")}>
-            Van
-          </button>
+          <li className={css.vehItemFul}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-four" />
+      </svg>
+            <FilterRadio
+              name="vehicleType"
+              label="Fully Integrated"
+              value="fullyIntegrated"
+              checked={draftFilters.vehicleType === "fullyIntegrated"}
+              onChange={() => setVehicleType("fullyIntegrated")}
+            />
+          </li>
 
-          <button
-            type="button"
-            onClick={() => setVehicleType("fullyIntegrated")}
-          >
-            Fully Integrated
-          </button>
-
-          <button type="button" onClick={() => setVehicleType("alcove")}>
-            Alcove
-          </button>
-        </div>
+          <li className={css.vehItem}>
+            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
+        <use href="/sprite.svg#icon-nine" />
+      </svg>
+            <FilterRadio
+              name="vehicleType"
+              label="Alcove"
+              value="alcove"
+              checked={draftFilters.vehicleType === "alcove"}
+              onChange={() => setVehicleType("alcove")}
+            />
+          </li>
+        </ul>
       </section>
 
+      {/* Search button */}
       <div>
-        <button type="button" onClick={handleSearch}>
+        <button className={css.butSearch} type="button" onClick={handleSearch}>
           Search
         </button>
       </div>
-    </aside>
+    </div>
   );
 }

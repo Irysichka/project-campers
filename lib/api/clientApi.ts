@@ -1,58 +1,69 @@
 import { Camper } from "@/types/camper";
-import { api } from "./api";
+import { api } from "./api"; // axios с baseURL = NEXT_PUBLIC_BACKEND_API_URL
 
+// те же ключи, что и в фильтрах
 export type EquipmentKey = "AC" | "kitchen" | "TV" | "bathroom";
 
-export type GetCampersOptions = {
-  page?: number;
-  pageSize?: number;
-  q?: string; // location
-  type?: string; // form
-  transmission?: string;
-  equipment?: EquipmentKey[];
+export type CamperFilters = {
+  location?: string; // будет уходить как ?location=...
+  form?: "alcove" | "fullyIntegrated" | "panelTruck";
+  transmission?: string; // "automatic" / "manual" и т.п.
+  equipment?: EquipmentKey[]; // AC, kitchen, TV, bathroom
 };
 
-export type GetCampersResult = {
+export type FetchCampersParams = {
+  page?: number;
+  limit?: number;
+  filters?: CamperFilters;
+};
+
+// то, что возвращает backend для /campers
+export interface CampersApiResponse {
   items: Camper[];
   total: number;
-};
+}
 
-// тип параметров запроса к /campers
+// query-параметры, которые мы реально шлём на backend
 type CamperQueryParams = {
   page?: number;
   limit?: number;
   location?: string;
-  form?: string;
+  form?: "alcove" | "fullyIntegrated" | "panelTruck";
   transmission?: string;
 } & Partial<Record<EquipmentKey, boolean>>;
 
-export const getCampers = async (
-  opts: GetCampersOptions = {}
-): Promise<GetCampersResult> => {
-  const { page = 1, pageSize = 4, q, type, transmission, equipment } = opts;
+// 🔹 основной запрос за списком кемперов
+export async function fetchCampers(
+  { page = 1, limit = 4, filters }: FetchCampersParams = {}
+): Promise<CampersApiResponse> {
+  const params: CamperQueryParams = { page, limit };
 
-  const params: CamperQueryParams = { page, limit: pageSize };
+  if (filters?.location) {
+    params.location = filters.location;
+  }
 
-  if (q) params.location = q;
-  if (type) params.form = type;
-  if (transmission) params.transmission = transmission;
+  if (filters?.form) {
+    params.form = filters.form;
+  }
 
-  if (equipment?.length) {
-    equipment.forEach((e) => {
-      // e: "AC" | "kitchen" | "TV" | "bathroom"
-      params[e] = true;
+  if (filters?.transmission) {
+    params.transmission = filters.transmission;
+  }
+
+  if (filters?.equipment?.length) {
+    filters.equipment.forEach((key) => {
+      // key: "AC" | "kitchen" | "TV" | "bathroom"
+      params[key] = true;
     });
   }
 
-  const response = await api.get<Camper[]>("/campers", { params });
+  const res = await api.get<CampersApiResponse>("/campers", { params });
 
-  const totalHeader = response.headers["x-total-count"];
-  const total = totalHeader ? Number(totalHeader) : response.data.length;
+  return res.data; // { items, total }
+}
 
-  return { items: response.data, total };
-};
-
-export async function GetCampersbyId(id: string): Promise<Camper> {
-  const response = await api.get<Camper>(`/campers/${id}`);
-  return response.data;
+// 🔹 запрос за одним кемпером по id
+export async function fetchCamperById(id: string): Promise<Camper> {
+  const res = await api.get<Camper>(`/campers/${id}`);
+  return res.data;
 }

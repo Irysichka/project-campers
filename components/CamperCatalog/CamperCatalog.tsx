@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import Link from "next/link";
 import { useCampersStore } from "@/lib/store/camperStore";
 import Image from "next/image";
+import css from "./CamperCatalog.module.css";
 
 export default function CamperCatalog() {
   const campers = useCampersStore((state) => state.campers);
@@ -21,69 +22,230 @@ export default function CamperCatalog() {
   }, [applyFilters]);
 
   return (
-    <section>
-      <header>
-        <h2>Catalog</h2>
-      </header>
-
+    <section className={css.catalog}>
       {loading && <p>Loading...</p>}
-
       <div>
         {campers.map((camper) => {
           const isFavorite = favorites.includes(camper.id);
 
           return (
-            <article key={camper.id}>
-              <div>
-                <Image
-                  src={
-                    camper.gallery?.[0]?.thumb ||
-                    camper.gallery?.[0]?.original ||
-                    "/placeholder.jpg"
-                  }
-                  alt={camper.name}
-                />
-              </div>
+            <article key={camper.id} className={css.section}>
+                <div className={css.catalogImg}>
+                  <Image
+                    className={css.image}
+                    src={
+                      camper.gallery?.[0]?.thumb ||
+                      camper.gallery?.[0]?.original ||
+                      "/placeholder.jpg"
+                    }
+                    alt={camper.name}
+                    width={292}
+                    height={320}
+                  />
+                </div>
 
-              <div>
-                <header>
+                <div className={css.catalogCart}>
                   <div>
-                    <h3>{camper.name}</h3>
+                  <div className={css.cartBlock}>
+                  <h3 className={css.name}>{camper.name}</h3>
+                  <div>
+                    <span className={css.price}>€{camper.price.toFixed(2)}</span>
+                    <button
+                      className={css.buttonHeart}
+                      type="button"
+                    onClick={() => toggleFavorite(camper.id)}
+                    aria-label={isFavorite ? "Remove from favorites" : "Add to favorites"}
+                    >
+                      <svg width="26" height="24" aria-hidden="true">
+                        <use href={`/sprite.svg#${isFavorite ? "icon-heart-red" : "icon-heart"}`} />
+                      </svg>
+                    </button>
+                  </div>
+                  </div>
                     <div>
-                      <span>
-                        ⭐ {camper.rating?.toFixed(1)} (
+                      <span className={css.review}>
+                        {" "}
+                        <svg width="16" height="16" aria-hidden="true">
+                          <use href="/sprite.svg#icon-icon-star-yellow" />
+                        </svg>
+                        {camper.rating?.toFixed(1)} (
                         {camper.reviews?.length ?? 0} Reviews)
                       </span>
-                      <span> • {camper.location}</span>
+                      <span  className={css.svgLoc}>
+                        {" "}
+                        <svg width="16" height="16" aria-hidden="true">
+                          <use href="/sprite.svg#icon-location" />
+                        </svg>{" "}
+                        {camper.location}
+                      </span>
                     </div>
                   </div>
 
-                  <div>
-                    <span>€{camper.price.toFixed(2)}</span>
-                    <button
-                      type="button"
-                      onClick={() => toggleFavorite(camper.id)}
-                    >
-                      {isFavorite ? "♥" : "♡"}
-                    </button>
-                  </div>
-                </header>
+                  <p className={css.description}>{camper.description}</p>
 
-                <p>{camper.description}</p>
+                  <div className={css.spanBlock}>
+                    {camper.transmission && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="20"
+                          height="20"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-cubs" />
+                        </svg>
+                        {camper.transmission}
+                      </span>
+                    )}
 
-                <div>
-                  {camper.transmission && <span>{camper.transmission}</span>}
-                  {camper.engine && <span>{camper.engine}</span>}
-                  {camper.AC && <span>AC</span>}
-                  {camper.kitchen && <span>Kitchen</span>}
+                    {camper.engine && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="20"
+                          height="20"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-engine" />
+                        </svg>
+                        {camper.engine}
+                      </span>
+                    )}
+
+                    {camper.AC && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="20"
+                          height="20"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-windy" />
+                        </svg>
+                        AC
+                      </span>
+                    )}
+
+                    {camper.bathroom && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="20"
+                          height="20"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-bath" />
+                        </svg>
+                        Bathroom
+                      </span>
+                    )}
+
+                    {camper.kitchen && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="20"
+                          height="20"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-cup-hot" />
+                        </svg>
+                        Kitchen
+                      </span>
+                    )}
+
+                    {camper.TV && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="20"
+                          height="20"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-laptop" />
+                        </svg>
+                        TV
+                      </span>
+                    )}
+
+                    {/* {camper.radio && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-radio" />
+                        </svg>
+                        Radio
+                      </span>
+                    )} */}
+
+                    {/* {camper.refrigerator && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-freeze" />
+                        </svg>
+                        Refrigerator
+                      </span>
+                    )} */}
+
+                    {/* {camper.microwave && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-Group" />
+                        </svg>
+                        Microwave
+                      </span>
+                    )} */}
+
+                    {/* {camper.gas && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-stove" />
+                        </svg>
+                        Gas
+                      </span>
+                    )} */}
+
+                    {/* {camper.water && (
+                      <span className={css.spanName}>
+                        <svg
+                          className={css.spanSvg}
+                          width="16"
+                          height="16"
+                          aria-hidden="true"
+                        >
+                          <use href="/sprite.svg#icon-water-outline" />
+                        </svg>
+                        Water
+                      </span>
+                    )} */}
                 </div>
-
                 <div>
                   <Link href={`/catalog/${camper.id}`}>
-                    <button type="button">Show more</button>
+                    <button className={css.search} type="button">Show more</button>
                   </Link>
                 </div>
-              </div>
+                </div>
+
+                
             </article>
           );
         })}
@@ -93,7 +255,7 @@ export default function CamperCatalog() {
         {!loading && campers.length === 0 && <p>No campers found.</p>}
 
         {campers.length < total && (
-          <button type="button" onClick={loadMore} disabled={loadingMore}>
+          <button className={css.buttonLoad} type="button" onClick={loadMore} disabled={loadingMore}>
             {loadingMore ? "Loading..." : "Load more"}
           </button>
         )}

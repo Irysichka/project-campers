@@ -1,13 +1,13 @@
 import { create } from "zustand";
 import { Camper } from "@/types/camper";
-import { getCampers, GetCampersOptions } from "@/lib/api/clientApi";
+import { fetchCampers } from "@/lib/api/clientApi";
 
 export type EquipmentKey = "AC" | "kitchen" | "TV" | "bathroom";
 export type VehicleType = "alcove" | "fullyIntegrated" | "panelTruck" | "";
 
 export type FiltersState = {
   location?: string;
-  vehicleType?: VehicleType;
+  vehicleType?: VehicleType | null;
   transmission?: string;
   equipment?: EquipmentKey[];
 };
@@ -20,10 +20,10 @@ type CampersStoreState = {
   loading: boolean;
   loadingMore: boolean;
 
-  draftFilters: FiltersState;   // то, что в форме сейчас
-  appliedFilters: FiltersState; // по этим фильтрам сделан текущий запрос
+  draftFilters: FiltersState;   // то, что сейчас введено в форме
+  appliedFilters: FiltersState; // фильтры, по которым загружены campers
 
-  favorites: string[]; // id кемперов в избранном
+  favorites: string[];
 
   setDraftFilters: (next: FiltersState) => void;
   applyFilters: () => Promise<void>;
@@ -53,27 +53,6 @@ function saveFavorites(ids: string[]) {
   }
 }
 
-// helper: превращаем FiltersState в параметры для getCampers
-function buildOptionsFromFilters(
-  filters: FiltersState,
-  page: number,
-  limit: number
-): GetCampersOptions {
-  const opts: GetCampersOptions = {
-    page,
-    pageSize: limit,
-  };
-
-  if (filters.location) opts.q = filters.location;
-  if (filters.vehicleType) opts.type = filters.vehicleType;
-  if (filters.transmission) opts.transmission = filters.transmission;
-  if (filters.equipment && filters.equipment.length) {
-    opts.equipment = filters.equipment;
-  }
-
-  return opts;
-}
-
 export const useCampersStore = create<CampersStoreState>((set, get) => ({
   campers: [],
   total: 0,
@@ -82,11 +61,18 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
   loading: false,
   loadingMore: false,
 
+  // лучше дефолт — пустой, чтобы не сразу фильтровать по локации
   draftFilters: {
-    location: "Kyiv, Ukraine",
+    location: "",
+    vehicleType: "",
+    transmission: "",
+    equipment: [],
   },
   appliedFilters: {
-    location: "Kyiv, Ukraine",
+    location: "",
+    vehicleType: "",
+    transmission: "",
+    equipment: [],
   },
 
   favorites: getInitialFavorites(),
@@ -98,7 +84,7 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
   applyFilters: async () => {
     const { draftFilters, limit } = get();
 
-    // сбрасываем старый список и страницу
+    // 1) сбрасываем предыдущее состояние и страницу
     set({
       appliedFilters: draftFilters,
       campers: [],
@@ -107,9 +93,14 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
     });
 
     try {
-      const opts = buildOptionsFromFilters(draftFilters, 1, limit);
-      const res = await getCampers(opts);
+      // 2) отправляем page, limit и filters
+      const res = await fetchCampers({
+        page: 1,
+        limit,
+        filters: draftFilters,
+      });
 
+      // 3) кладём новые данные
       set({
         campers: res.items,
         total: res.total,
@@ -132,8 +123,11 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
     set({ loadingMore: true });
 
     try {
-      const opts = buildOptionsFromFilters(appliedFilters, nextPage, limit);
-      const res = await getCampers(opts);
+      const res = await fetchCampers({
+        page: nextPage,
+        limit,
+        filters: appliedFilters,
+      });
 
       set({
         campers: [...campers, ...res.items],

@@ -1,0 +1,114 @@
+.spanSvg{
+fill: var(--white);
+stroke: var(--main);
+
+}
+
+.spanName{
+background-color: var(--badges);
+border-radius: 100px;
+padding: 12px 18px;
+display: inline-flex;
+align-items: center;
+gap: 8px;
+}
+
+.image{
+border-radius: 10px;
+    object-fit: cover;
+    margin-right: 24px;
+
+}
+.name{
+font-weight: 600;
+    font-size: 24px;
+    line-height: 133%;
+    margin-bottom: 8px;
+}
+.catalog{
+    padding-top: 48px;
+    padding-bottom: 40px;   
+}
+.review{
+    font-weight: 400;
+        font-size: 16px;
+        line-height: 150%;
+        
+}
+.price{
+font-weight: 600;
+    font-size: 24px;
+    line-height: 133%;
+}
+
+.buttonHeart{
+ margin-left: 12px; 
+ border: none; 
+ background: none; 
+}
+.svgLoc{
+    margin-left: 16px;
+    font-weight: 400;
+}
+.section{
+display: flex;
+border: 1px solid var(--gray-light);
+    border-radius: 20px;
+    padding: 24px;
+    margin-bottom: 32px;
+}
+
+.cartBlock{
+    display: flex;
+    justify-content: space-between;
+}
+
+.description{
+    margin-top: 24px;
+    margin-bottom: 24px;
+    font-weight: 400;
+        line-height: 150%;
+        color: var(--text);
+        max-width: 525px;
+        white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis; 
+
+}
+
+.spanBlock{
+  display: flex;  
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px;
+  align-items: center;
+  margin-bottom:30px ;
+}
+
+.search{
+font-weight: 500;
+    font-size: 16px;
+    line-height: 150%;
+    letter-spacing: -0.01em;
+    color: var(--white);
+    border-radius: 200px;
+    background-color: var(--button);
+    width: 166px;
+        height: 56px;
+        border: none;
+}
+
+.buttonLoad{
+border: 1px solid var(--gray-light);
+    border-radius: 200px;
+    padding: 16px 32px;
+    width: 145px;
+    height: 56px;
+    font-weight: 500;
+        font-size: 16px;
+        line-height: 150%;
+        letter-spacing: -0.01em;
+        background: none;
+        margin: 0 auto;
+        display: block;
+}
