@@ -1,0 +1,75 @@
+.wrapper{
+    margin-top: 44px;
+    border: 1px solid var(--gray-light);
+        border-radius: 10px;
+        padding: 44px 57px;
+        width: 641px;
+            height: 588px;
+}
+
+.title{
+font-weight: 600;
+    font-size: 20px;
+    line-height: 120%;
+    margin-bottom: 8px;
+}
+
+.subtitle{
+font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+margin-bottom: 24px;
+    color: var(--gray);
+}
+
+.input{
+background-color: var(--inputs);
+border: none;
+width: 527px;
+    height: 60px;
+  margin-bottom: 14px;  
+border-radius: 10px;
+padding-left: 18px;
+font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--main);
+}
+
+.textarea{
+background-color: var(--inputs);
+padding: 18px;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    color: var(--main);
+    border-radius: 10px;
+    border: none;
+    width: 527px;
+        height: 118px;
+}
+
+.button{
+background-color: var(--button);
+border-radius: 200px;
+    padding: 16px 60px;
+    width: 166px;
+    height: 56px;
+    font-weight: 500;
+        font-size: 16px;
+        line-height: 150%;
+        letter-spacing: -0.01em;
+        color: var(--white);
+        border: none;
+        margin-top: 24px;
+        display: block;
+        margin: 24px auto;
+}
+
+.error {
+    position: absolute;
+    bottom: -16px;
+    left: 6px;
+    font-size: 10px;
+    color: var(--button);
+}

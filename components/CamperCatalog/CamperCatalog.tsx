@@ -40,7 +40,9 @@ export default function CamperCatalog() {
                     }
                     alt={camper.name}
                     width={292}
-                    height={320}
+                  height={320}
+                  loading="eager"
+  priority
                   />
                 </div>
 

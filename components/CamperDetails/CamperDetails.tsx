@@ -77,6 +77,8 @@ export default function CamperDetails() {
               alt={`Image ${index}`}
               width={292}
               height={312}
+              loading="eager"
+  priority
             />
           ))}
         </div>

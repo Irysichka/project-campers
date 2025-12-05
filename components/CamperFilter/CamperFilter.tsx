@@ -3,11 +3,10 @@
 import {
   useCampersStore,
   FiltersState,
-  EquipmentKey,
-  VehicleType,
 } from "@/lib/store/camperStore";
 
 import css from "./CamperFilter.module.css";
+import { EquipmentKey, VehicleType } from "@/types/camper";
 
 type CheckboxProps = {
   label: string;

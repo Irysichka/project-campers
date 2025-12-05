@@ -1,8 +1,10 @@
 "use client";
 
-import { Field, Form, Formik, FormikHelpers } from "formik";
-import css from "./BookingForm.module.css"
+import { ErrorMessage, Field, Form, Formik, FormikHelpers } from "formik";
+import css from "./BookingForm.module.css";
 import DatePicker from "react-datepicker";
+import * as Yup from "yup";
+import toast, { Toaster } from "react-hot-toast";
 
 interface OrderFormValues {
   username: string;
@@ -10,7 +12,12 @@ interface OrderFormValues {
   date: Date | null;
   comment: string;
 }
-
+const validationSchema = Yup.object({
+  username: Yup.string().required("Name is required"),
+  email: Yup.string().email("Invalid email").required("Email is required"),
+  date: Yup.date().required("Booking date is required").nullable(),
+  comment: Yup.string(),
+});
 const initialValues: OrderFormValues = {
   username: "",
   email: "",
@@ -23,13 +30,18 @@ export default function BookingForm() {
     values: OrderFormValues,
     actions: FormikHelpers<OrderFormValues>
   ) => {
-    console.log("Form values:", values);
+
+ toast.success("Your campervan is successfully booked!");
     actions.resetForm();
   };
 
-return (
+  return (
     <div className={css.wrapper}>
-      <Formik initialValues={initialValues} onSubmit={handleSubmit}>
+      <Formik
+        validationSchema={validationSchema}
+        initialValues={initialValues}
+        onSubmit={handleSubmit}
+      >
         {({ values, setFieldValue, isSubmitting }) => (
           <Form className={css.form}>
             <h3 className={css.title}>Book your campervan now</h3>
@@ -46,6 +58,7 @@ return (
                 placeholder="Name*"
                 required
               />
+              <ErrorMessage name="username" className={css.error} />
             </div>
 
             {/* Email */}
@@ -57,6 +70,7 @@ return (
                 placeholder="Email*"
                 required
               />
+              <ErrorMessage name="email" className={css.error} />
             </div>
 
             {/* Booking date (calendar) */}
@@ -65,10 +79,11 @@ return (
                 selected={values.date}
                 onChange={(date) => setFieldValue("date", date)}
                 placeholderText="Booking date*"
-                className={css.input}        // ← класс для инпута календаря
+                className={css.input} // ← класс для инпута календаря
                 calendarClassName={css.calendar} // ← класс для всплывающего календаря
                 required
               />
+              <ErrorMessage name="date" className={css.error} />
             </div>
 
             {/* Comment */}
@@ -92,6 +107,8 @@ return (
           </Form>
         )}
       </Formik>
+
+      <Toaster position="top-center" />
     </div>
   );
 }
