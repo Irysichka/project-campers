@@ -1,16 +1,29 @@
 import { create } from "zustand";
-import { Camper } from "@/types/camper";
+import type { Camper, CamperFilters, VehicleType, EquipmentKey } from "@/types/camper";
 import { fetchCampers } from "@/lib/api/clientApi";
 
-export type EquipmentKey = "AC" | "kitchen" | "TV" | "bathroom";
-export type VehicleType = "alcove" | "fullyIntegrated" | "panelTruck" | "";
-
 export type FiltersState = {
-  location?: string;
-  vehicleType?: VehicleType | null;
-  transmission?: string;
-  equipment?: EquipmentKey[];
+  location: string;
+  vehicleType: VehicleType | "";
+  transmission: "automatic" | "";
+  equipment: EquipmentKey[];
 };
+
+const initialFilters: FiltersState = {
+  location: "",
+  vehicleType: "",
+  transmission: "",
+  equipment: [],
+};
+
+function normalizeFilters(f: FiltersState): CamperFilters {
+  return {
+    location: f.location || undefined,
+    vehicleType: f.vehicleType || undefined,
+    transmission: f.transmission || undefined,
+    equipment: f.equipment.length ? f.equipment : undefined,
+  };
+}
 
 type CampersStoreState = {
   campers: Camper[];
@@ -20,8 +33,8 @@ type CampersStoreState = {
   loading: boolean;
   loadingMore: boolean;
 
-  draftFilters: FiltersState;   // то, что сейчас введено в форме
-  appliedFilters: FiltersState; // фильтры, по которым загружены campers
+  draftFilters: FiltersState;
+  appliedFilters: FiltersState;
 
   favorites: string[];
 
@@ -34,11 +47,7 @@ type CampersStoreState = {
 function getInitialFavorites(): string[] {
   if (typeof window === "undefined") return [];
   try {
-    const raw = window.localStorage.getItem("tt_favorites");
-    if (!raw) return [];
-    const parsed = JSON.parse(raw);
-    if (Array.isArray(parsed)) return parsed;
-    return [];
+    return JSON.parse(localStorage.getItem("tt_favorites") || "[]");
   } catch {
     return [];
   }
@@ -46,11 +55,7 @@ function getInitialFavorites(): string[] {
 
 function saveFavorites(ids: string[]) {
   if (typeof window === "undefined") return;
-  try {
-    window.localStorage.setItem("tt_favorites", JSON.stringify(ids));
-  } catch {
-    // ignore
-  }
+  localStorage.setItem("tt_favorites", JSON.stringify(ids));
 }
 
 export const useCampersStore = create<CampersStoreState>((set, get) => ({
@@ -61,30 +66,17 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
   loading: false,
   loadingMore: false,
 
-  // лучше дефолт — пустой, чтобы не сразу фильтровать по локации
-  draftFilters: {
-    location: "",
-    vehicleType: "",
-    transmission: "",
-    equipment: [],
-  },
-  appliedFilters: {
-    location: "",
-    vehicleType: "",
-    transmission: "",
-    equipment: [],
-  },
+  draftFilters: initialFilters,
+  appliedFilters: initialFilters,
 
   favorites: getInitialFavorites(),
 
-  setDraftFilters: (next) => {
-    set({ draftFilters: next });
-  },
+  setDraftFilters: (next) => set({ draftFilters: next }),
 
   applyFilters: async () => {
     const { draftFilters, limit } = get();
+    const apiFilters = normalizeFilters(draftFilters);
 
-    // 1) сбрасываем предыдущее состояние и страницу
     set({
       appliedFilters: draftFilters,
       campers: [],
@@ -93,31 +85,30 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
     });
 
     try {
-      // 2) отправляем page, limit и filters
       const res = await fetchCampers({
         page: 1,
         limit,
-        filters: draftFilters,
+        filters: apiFilters,
       });
 
-      // 3) кладём новые данные
       set({
         campers: res.items,
         total: res.total,
       });
     } catch (error) {
       console.error("Error applying filters:", error);
-      set({
-        campers: [],
-        total: 0,
-      });
+      set({ campers: [], total: 0 });
     } finally {
-      set({ loading: false });
+      set({
+        loading: false,
+        draftFilters: initialFilters, // ← правильно: сброс формы
+      });
     }
   },
 
   loadMore: async () => {
     const { page, limit, appliedFilters, campers } = get();
+    const apiFilters = normalizeFilters(appliedFilters);
     const nextPage = page + 1;
 
     set({ loadingMore: true });
@@ -126,7 +117,7 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
       const res = await fetchCampers({
         page: nextPage,
         limit,
-        filters: appliedFilters,
+        filters: apiFilters,
       });
 
       set({
@@ -141,10 +132,11 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
     }
   },
 
-  toggleFavorite: (id: string) => {
+  toggleFavorite: (id) => {
     const current = get().favorites;
-    const exists = current.includes(id);
-    const next = exists ? current.filter((x) => x !== id) : [...current, id];
+    const next = current.includes(id)
+      ? current.filter((x) => x !== id)
+      : [...current, id];
 
     saveFavorites(next);
     set({ favorites: next });

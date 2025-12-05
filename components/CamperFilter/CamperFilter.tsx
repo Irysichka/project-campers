@@ -7,12 +7,13 @@ import {
   VehicleType,
 } from "@/lib/store/camperStore";
 
-import css from "./CamperFilter.module.css"
+import css from "./CamperFilter.module.css";
 
 type CheckboxProps = {
   label: string;
   checked: boolean;
   onChange: () => void;
+  children: React.ReactNode;
 };
 
 type RadioProps = {
@@ -21,25 +22,43 @@ type RadioProps = {
   value: string;
   checked: boolean;
   onChange: () => void;
+  children: React.ReactNode;
+  full?: boolean;        
 };
 
-function FilterCheckbox({ label, checked, onChange }: CheckboxProps) {
+function FilterCheckbox({ label, checked, onChange, children }: CheckboxProps) {
   return (
-    <label className={css.checkboxLabel}>
+    <label
+      className={`${css.vehItem} ${checked ? css.vehItemSelected : ""} ${
+        css.checkboxLabel
+      }`}
+    >
       <input
         type="checkbox"
         checked={checked}
         onChange={onChange}
         className={css.checkboxHidden}
       />
+      {children}
       <span>{label}</span>
     </label>
   );
 }
 
-function FilterRadio({ name, label, value, checked, onChange }: RadioProps) {
+function FilterRadio({
+  name,
+  label,
+  value,
+  checked,
+  onChange,
+  children,
+}: RadioProps) {
   return (
-    <label className={css.checkboxLabel}>
+    <label
+      className={`${css.vehItem} ${checked ? css.vehItemSelected : ""} ${
+        css.checkboxLabel
+      }`}
+    >
       <input
         type="radio"
         name={name}
@@ -48,6 +67,7 @@ function FilterRadio({ name, label, value, checked, onChange }: RadioProps) {
         onChange={onChange}
         className={css.checkboxHidden}
       />
+      {children}
       <span>{label}</span>
     </label>
   );
@@ -97,16 +117,24 @@ export default function Filters() {
       {/* Location */}
       <div className={css.location}>
         <label className={css.label}>Location</label>
-        {/* <svg className={css.spanFilter} width="16" height="16" aria-hidden="true">
-        <use href="/sprite.svg#icon-location" />
-      </svg> */}
-        <input
-          className={css.input}
-          placeholder="Kyiv, Ukraine"
-          value={draftFilters.location ?? ""}
-          onChange={(e) => update({ location: e.target.value })}
-        >
-        </input>
+
+        <div className={css.inputWrapper}>
+          <svg
+            className={css.inputIcon}
+            width="20"
+            height="20"
+            aria-hidden="true"
+          >
+            <use href="/sprite.svg#icon-location" />
+          </svg>
+
+          <input
+            className={css.input}
+            placeholder="City"
+            value={draftFilters.location ?? ""}
+            onChange={(e) => update({ location: e.target.value })}
+          />
+        </div>
       </div>
 
       <div>
@@ -117,64 +145,89 @@ export default function Filters() {
         <h3 className={css.vehText}>Vehicle equipment</h3>
 
         <ul className={css.vehList}>
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-windy" />
-      </svg>
+          <li>
             <FilterCheckbox
               label="AC"
               checked={currentEquipment.includes("AC")}
               onChange={() => toggleEquipment("AC")}
-            />
-            
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-windy" />
+              </svg>
+            </FilterCheckbox>
           </li>
 
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-cubs" />
-      </svg>
+          <li>
             <FilterCheckbox
               label="Automatic"
               checked={isAutomaticChecked}
               onChange={toggleTransmissionAutomatic}
-            />
-            
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-cubs" />
+              </svg>
+            </FilterCheckbox>
           </li>
 
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-cup-hot" />
-      </svg>
+          <li>
             <FilterCheckbox
               label="Kitchen"
               checked={currentEquipment.includes("kitchen")}
               onChange={() => toggleEquipment("kitchen")}
-            />
-            
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-cup-hot" />
+              </svg>
+            </FilterCheckbox>
           </li>
 
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-laptop" />
-      </svg>
+          <li>
             <FilterCheckbox
               label="TV"
               checked={currentEquipment.includes("TV")}
               onChange={() => toggleEquipment("TV")}
-            />
-            
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-laptop" />
+              </svg>
+            </FilterCheckbox>
           </li>
 
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-bath" />
-      </svg>
+          <li>
             <FilterCheckbox
               label="Bathroom"
               checked={currentEquipment.includes("bathroom")}
               onChange={() => toggleEquipment("bathroom")}
-            />
-            
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-bath" />
+              </svg>
+            </FilterCheckbox>
           </li>
         </ul>
       </section>
@@ -183,43 +236,61 @@ export default function Filters() {
       <section>
         <h3 className={css.textType}>Vehicle type</h3>
         <ul className={css.vehList}>
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-quater" />
-      </svg>
+          <li>
             <FilterRadio
               name="vehicleType"
               label="Van"
               value="panelTruck"
               checked={draftFilters.vehicleType === "panelTruck"}
               onChange={() => setVehicleType("panelTruck")}
-            />
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-quater" />
+              </svg>
+            </FilterRadio>
           </li>
 
-          <li className={css.vehItemFul}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-four" />
-      </svg>
+          <li>
             <FilterRadio
               name="vehicleType"
               label="Fully Integrated"
               value="fullyIntegrated"
               checked={draftFilters.vehicleType === "fullyIntegrated"}
               onChange={() => setVehicleType("fullyIntegrated")}
-            />
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-four" />
+              </svg>
+            </FilterRadio>
           </li>
 
-          <li className={css.vehItem}>
-            <svg className={css.spanCheckbox} width="32" height="32" aria-hidden="true">
-        <use href="/sprite.svg#icon-nine" />
-      </svg>
+          <li>
             <FilterRadio
               name="vehicleType"
               label="Alcove"
               value="alcove"
               checked={draftFilters.vehicleType === "alcove"}
               onChange={() => setVehicleType("alcove")}
-            />
+            >
+              <svg
+                className={css.spanCheckbox}
+                width="32"
+                height="32"
+                aria-hidden="true"
+              >
+                <use href="/sprite.svg#icon-nine" />
+              </svg>
+            </FilterRadio>
           </li>
         </ul>
       </section>

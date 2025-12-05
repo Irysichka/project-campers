@@ -98,6 +98,11 @@ font-weight: 500;
         border: none;
 }
 
+.search:hover,
+.search:focus {
+    background-color: var(--button-hover);
+}
+
 .buttonLoad{
 border: 1px solid var(--gray-light);
     border-radius: 200px;
@@ -111,4 +116,9 @@ border: 1px solid var(--gray-light);
         background: none;
         margin: 0 auto;
         display: block;
+}
+
+.buttonLoad:hover,
+.buttonLoad:focus{
+border: 1px solid var(--button-hover);
 }

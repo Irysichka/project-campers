@@ -64,7 +64,6 @@ export default function CamperCatalog() {
                   </div>
                     <div>
                       <span className={css.review}>
-                        {" "}
                         <svg width="16" height="16" aria-hidden="true">
                           <use href="/sprite.svg#icon-icon-star-yellow" />
                         </svg>
@@ -72,7 +71,6 @@ export default function CamperCatalog() {
                         {camper.reviews?.length ?? 0} Reviews)
                       </span>
                       <span  className={css.svgLoc}>
-                        {" "}
                         <svg width="16" height="16" aria-hidden="true">
                           <use href="/sprite.svg#icon-location" />
                         </svg>{" "}

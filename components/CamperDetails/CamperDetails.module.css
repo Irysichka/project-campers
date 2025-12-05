@@ -1,0 +1,75 @@
+.section{
+    padding-top: 48px;
+    padding-bottom:60px ;
+}
+.name{
+    font-weight: 600;
+        font-size: 24px;
+        line-height: 133%;
+        margin-bottom: 8px;
+}
+
+.reviews{
+font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+
+}
+
+.rating{
+font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+    text-decoration: underline;
+    text-decoration-skip-ink: none;
+}
+
+.ratingBlock{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.locationBlock{
+    display: flex;
+    gap: 4px ;
+    align-items: center;
+}
+
+.location{
+font-weight: 400;
+    font-size: 16px;
+    line-height: 150%;
+}
+
+.block{
+    display: flex;
+    gap: 16px;
+    margin-bottom: 16px;
+}
+
+.price{
+    margin-bottom: 28px;
+    font-weight: 600;
+        font-size: 24px;
+        line-height: 133%;
+}
+
+.image{
+    display: flex;
+    gap: 48px;
+}
+
+.oneImage{
+object-fit: cover;
+}
+
+.desc{
+    margin-top: 28px;
+    font-weight: 400;
+        font-size: 16px;
+        line-height: 150%;
+        color: var(--text);
+}

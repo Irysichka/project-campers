@@ -49,13 +49,13 @@ export type EquipmentFilter =
   | "TV"
     | "Bathroom";
 
-export type EquipmentKey = "AC" | "Automatic" | "Kitchen" | "TV" | "bathroom";
+export type EquipmentKey = "AC" | "kitchen" | "TV" | "bathroom";
   
-export type VehicleType = "alcove" | "fullyIntegrated" | "panelTruck" | "";
+export type VehicleType = "alcove" | "fullyIntegrated" | "panelTruck";
 
 export interface CamperFilters {
   location?: string;
-  form?: "panelTruck" | "fullyIntegrated" | "alcove";
-  equipment?: Exclude<EquipmentKey, "automatic">[];
+  vehicleType?: VehicleType;
+  equipment?: EquipmentKey[];
   transmission?: "automatic";
 }

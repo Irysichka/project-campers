@@ -6,7 +6,7 @@ export type EquipmentKey = "AC" | "kitchen" | "TV" | "bathroom";
 
 export type CamperFilters = {
   location?: string; // будет уходить как ?location=...
-  form?: "alcove" | "fullyIntegrated" | "panelTruck";
+  vehicleType?: "alcove" | "fullyIntegrated" | "panelTruck";
   transmission?: string; // "automatic" / "manual" и т.п.
   equipment?: EquipmentKey[]; // AC, kitchen, TV, bathroom
 };
@@ -32,7 +32,6 @@ type CamperQueryParams = {
   transmission?: string;
 } & Partial<Record<EquipmentKey, boolean>>;
 
-// 🔹 основной запрос за списком кемперов
 export async function fetchCampers(
   { page = 1, limit = 4, filters }: FetchCampersParams = {}
 ): Promise<CampersApiResponse> {
@@ -42,8 +41,8 @@ export async function fetchCampers(
     params.location = filters.location;
   }
 
-  if (filters?.form) {
-    params.form = filters.form;
+  if (filters?.vehicleType) {
+    params.form = filters.vehicleType;
   }
 
   if (filters?.transmission) {
@@ -59,10 +58,9 @@ export async function fetchCampers(
 
   const res = await api.get<CampersApiResponse>("/campers", { params });
 
-  return res.data; // { items, total }
+  return res.data; 
 }
 
-// 🔹 запрос за одним кемпером по id
 export async function fetchCamperById(id: string): Promise<Camper> {
   const res = await api.get<Camper>(`/campers/${id}`);
   return res.data;

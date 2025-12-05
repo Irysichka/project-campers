@@ -12,29 +12,13 @@ line-height: 150%;
     color: var(--gray);
 }
 
-.input{
-background-color: var(--inputs);
-border-radius: 12px;
-padding: 18px 218px 18px 20px;
-position: relative;
-border: none;
-margin-bottom: 40px;
-
-}
-/* .spanFilter{
-    top: 150px;
-    position: absolute;
-} */
-
 .filt{
     line-height: 150%;
         color: var(--text);
         margin-bottom: 32px;
+        margin-top: 40px;
 }
 
-.vehivEquip{
-
-}
 .vehText{
     margin-bottom: 24px;
     font-weight: 600;
@@ -73,7 +57,13 @@ position: relative;
     width: 112px;
     height: 96px;
 }
+.vehItemSelected {
+    border: 1px solid var(--button-hover);
+}
 
+.vehItemFulSelected {
+    border: 1px solid var(--button-hover);
+}
 .checkboxHidden {
     position: absolute;
     opacity: 0;
@@ -108,5 +98,25 @@ font-weight: 600;
     margin-top:32px ;
     margin-bottom: 24px;
 }
-.spanCheckboxFul{
+.inputWrapper {
+    position: relative;
+    width: 100%;
+}
+
+.inputIcon {
+    position: absolute;
+    left: 16px;
+    top: 50%;
+    transform: translateY(-50%);
+    fill: var(--gray);
+    pointer-events: none;
+}
+
+.input {
+    background-color: var(--inputs);
+    border-radius: 12px;
+    padding: 18px 20px 18px 48px;
+    width: 100%;
+    border: none;
+    color: var(--main);
 }

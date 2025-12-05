@@ -1,0 +1,23 @@
+.tabs{
+border-bottom: 1px solid var(--gray-light);;
+}
+
+.tab{
+font-weight: 600;
+    font-size: 20px;
+    line-height: 120%;
+    color: var(--main);
+    background: none;
+    border: none;
+    margin-right: 40px;
+}
+.active {
+    padding-bottom: 24px;
+    border-bottom: 5px solid var(--button);
+    border-bottom-color: #e44848;
+}
+.leftBlock{
+    display: flex;
+    gap:40px ;
+}
+

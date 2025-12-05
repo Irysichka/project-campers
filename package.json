@@ -12,10 +12,12 @@
     "@tanstack/react-query": "^5.90.11",
     "@tanstack/react-query-devtools": "^5.91.1",
     "axios": "^1.13.2",
+    "formik": "^2.4.9",
     "install": "^0.13.0",
     "next": "16.0.6",
     "npm": "^11.6.4",
     "react": "19.2.0",
+    "react-datepicker": "^8.10.0",
     "react-dom": "19.2.0",
     "zustand": "^5.0.9"
   },
