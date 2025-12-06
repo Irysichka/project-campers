@@ -10,7 +10,6 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5.90.11",
-    "@tanstack/react-query-devtools": "^5.91.1",
     "axios": "^1.13.2",
     "formik": "^2.4.9",
     "install": "^0.13.0",
