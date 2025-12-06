@@ -4,8 +4,6 @@ const nextConfig = {
       {
         protocol: "https",
         hostname: "ftp.goit.study",
-        // optional:
-        // pathname: "/img/campers-test-task/**",
       },
     ],
   },
