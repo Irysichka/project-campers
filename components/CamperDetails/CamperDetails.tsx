@@ -6,6 +6,7 @@ import { fetchCamperById } from "@/lib/api/clientApi";
 import type { Camper } from "@/types/camper";
 import Image from "next/image";
 import css from "./CamperDetails.module.css";
+import Loading from "@/app/loading";
 
 export default function CamperDetails() {
   const params = useParams<{ id: string }>();
@@ -31,7 +32,7 @@ export default function CamperDetails() {
     load();
   }, [camperId]);
 
-  if (loading) return <div>Loading...</div>;
+  if (loading) return <Loading />;
   if (!camper) return <div>Camper not found</div>;
 
   const reviewsCount = camper.reviews?.length ?? 0;

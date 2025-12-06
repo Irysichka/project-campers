@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useCampersStore } from "@/lib/store/camperStore";
 import Image from "next/image";
 import css from "./CamperCatalog.module.css";
+import Loading from "@/app/loading";
 
 export default function CamperCatalog() {
   const campers = useCampersStore((state) => state.campers);
@@ -21,9 +22,12 @@ export default function CamperCatalog() {
     applyFilters();
   }, [applyFilters]);
 
+function capitalize(str: string) {
+  return str.charAt(0).toUpperCase() + str.slice(1);
+}
   return (
     <section className={css.catalog}>
-      {loading && <p>Loading...</p>}
+      {loading && <Loading />}
       <div>
         {campers.map((camper) => {
           const isFavorite = favorites.includes(camper.id);
@@ -104,7 +108,7 @@ export default function CamperCatalog() {
                       >
                         <use href="/sprite.svg#icon-cubs" />
                       </svg>
-                      {camper.transmission}
+                      {capitalize(camper.transmission)}
                     </span>
                   )}
 
@@ -118,7 +122,7 @@ export default function CamperCatalog() {
                       >
                         <use href="/sprite.svg#icon-engine" />
                       </svg>
-                      {camper.engine}
+                      {capitalize(camper.engine)}
                     </span>
                   )}
 

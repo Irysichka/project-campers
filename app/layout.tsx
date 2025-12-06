@@ -14,8 +14,11 @@ const interSans = Inter({
 
 
 export const metadata: Metadata = {
-  title: "Travel Trucks",
-  description: "Find camper",
+  title: "TravelTrucks",
+  description: "Find the best campers for your next trip.",
+   icons: {
+    icon: "/favicon.ico",
+  },
 };
 
 export default function RootLayout({

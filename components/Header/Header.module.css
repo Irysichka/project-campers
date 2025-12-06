@@ -5,7 +5,8 @@ padding-bottom: 24px;
 }
 .header{
     display: flex;
-    gap: 450px;
+   align-items: center;
+   justify-content: space-between
 }
 
 .navigation{

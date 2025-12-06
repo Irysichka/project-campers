@@ -42,7 +42,7 @@ export default function BookingForm() {
         initialValues={initialValues}
         onSubmit={handleSubmit}
       >
-        {({ values, setFieldValue, isSubmitting }) => (
+        {({ values, setFieldValue, isSubmitting, touched, errors }) => (
           <Form className={css.form}>
             <h3 className={css.title}>Book your campervan now</h3>
             <p className={css.subtitle}>
@@ -52,25 +52,29 @@ export default function BookingForm() {
             {/* Name */}
             <div className={css.fieldWrapper}>
               <Field
-                className={css.input}
+                className={`${css.input} ${
+                  errors.username && touched.username ? css.inputError : ""
+                }`}
                 type="text"
                 name="username"
                 placeholder="Name*"
                 required
               />
-              <ErrorMessage name="username" className={css.error} />
+              <ErrorMessage name="username" component="p" className={css.error} />
             </div>
 
             {/* Email */}
             <div className={css.fieldWrapper}>
               <Field
-                className={css.input}
+                className={`${css.input} ${
+                  errors.email && touched.email ? css.inputError : ""
+                }`}
                 type="email"
                 name="email"
                 placeholder="Email*"
                 required
               />
-              <ErrorMessage name="email" className={css.error} />
+              <ErrorMessage name="email" component="p"  className={css.error} />
             </div>
 
             {/* Booking date (calendar) */}

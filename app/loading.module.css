@@ -1,6 +1,16 @@
 .wrapper {
-    display: flex;
-    justify-content: center;
+    position: fixed;
+    top: 120px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 9999;
+    border-radius: 6px;
+    border: 1px solid transparent;
+    color: var(--gray);
     align-items: center;
-    box-sizing: border-box;
+    justify-content: center;
+}
+
+.text {
+    color: var(--main);
 }

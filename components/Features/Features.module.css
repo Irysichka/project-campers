@@ -4,13 +4,16 @@ padding: 44px 52px;
 background-color: var(--inputs);
 width: 631px;
     height: 588px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 .chipsRow{
     display: flex;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 8px;
-    margin-bottom: 100px ;
+    /* margin-bottom: 100px ; */
 }
 .chip{
 background-color: var(--badges);
