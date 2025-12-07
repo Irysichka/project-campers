@@ -25,7 +25,7 @@ openGraph: {
   url: "https://project-campers.vercel.app/",
   images: [
       {
-        url: 'https://ftp.goit.study/img/campers-test-task/8-1.webp',
+        url: 'https://camper-ural.ru/uploads/articles/pcn1bkh1i5u214s38pr6nedvdczdp8kd.webp',
         width: 1200,
         height: 630,
         alt: 'TravelTrucks',
