@@ -1,9 +1,3 @@
-.spanSvg{
-fill: var(--white);
-stroke: var(--main);
-
-}
-
 .spanName{
 background-color: var(--badges);
 border-radius: 100px;

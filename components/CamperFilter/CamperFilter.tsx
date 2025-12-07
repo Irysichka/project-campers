@@ -1,9 +1,6 @@
 "use client";
 
-import {
-  useCampersStore,
-  FiltersState,
-} from "@/lib/store/camperStore";
+import { useCampersStore, FiltersState } from "@/lib/store/camperStore";
 
 import css from "./CamperFilter.module.css";
 import { EquipmentKey, VehicleType } from "@/types/camper";
@@ -22,7 +19,7 @@ type RadioProps = {
   checked: boolean;
   onChange: () => void;
   children: React.ReactNode;
-  full?: boolean;        
+  full?: boolean;
 };
 
 function FilterCheckbox({ label, checked, onChange, children }: CheckboxProps) {
@@ -51,12 +48,13 @@ function FilterRadio({
   checked,
   onChange,
   children,
+  full,
 }: RadioProps) {
   return (
     <label
       className={`${css.vehItem} ${checked ? css.vehItemSelected : ""} ${
         css.checkboxLabel
-      }`}
+      } ${full ? css.radioFul : ""}`}
     >
       <input
         type="radio"
@@ -261,6 +259,7 @@ export default function Filters() {
               value="fullyIntegrated"
               checked={draftFilters.vehicleType === "fullyIntegrated"}
               onChange={() => setVehicleType("fullyIntegrated")}
+              full
             >
               <svg
                 className={css.spanCheckbox}

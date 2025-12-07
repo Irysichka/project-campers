@@ -77,6 +77,10 @@ position: relative;
     flex-direction: column;
     align-items: center;
     cursor: pointer;
+    justify-content: center;
+    text-align: center;
+
+
 }
 .spanCheckbox{
     margin-bottom: 8px;
@@ -122,4 +126,8 @@ font-weight: 600;
     width: 100%;
     border: none;
     color: var(--main);
+}
+
+.radioFul{
+    padding: 0;
 }

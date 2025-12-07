@@ -23,14 +23,6 @@ openGraph: {
   title: "TravelTrucks",
   description: "Find the best campers for your next trip.",
   url: "https://project-campers.vercel.app/",
-  images: [
-      {
-        url: 'https://camper-ural.ru/uploads/articles/pcn1bkh1i5u214s38pr6nedvdczdp8kd.webp',
-        width: 1200,
-        height: 630,
-        alt: 'TravelTrucks',
-      },
-    ],
 },
 };
 
