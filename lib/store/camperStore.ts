@@ -101,7 +101,7 @@ export const useCampersStore = create<CampersStoreState>((set, get) => ({
     } finally {
       set({
         loading: false,
-        draftFilters: initialFilters, // ← правильно: сброс формы
+        draftFilters: initialFilters,
       });
     }
   },

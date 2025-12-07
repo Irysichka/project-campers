@@ -6,7 +6,6 @@ import { fetchCamperById } from "@/lib/api/clientApi";
 import type { Camper } from "@/types/camper";
 import css from "./Features.module.css";
 
-// булевые поля, которые приходят с бэка как true/false
 type BoolKey =
   | "AC"
   | "bathroom"
@@ -18,14 +17,12 @@ type BoolKey =
   | "gas"
   | "water";
 
-// описание булевой фичи: какое поле, какая надпись и какая иконка
 type BoolFeatureConfig = {
   key: BoolKey;
   label: string;
   iconHref: string;
 };
 
-// то, что реально рендерим (чип)
 type FeatureChip = {
   label: string;
   iconHref: string;
@@ -58,10 +55,6 @@ export default function Features() {
   if (loading) return <div>Loading...</div>;
   if (!camper) return <div>Camper not found</div>;
 
-  // --------------------------------------
-  // helper'ы для красивых подписей
-  // --------------------------------------
-
   const capitalize = (str: string) =>
     str.charAt(0).toUpperCase() + str.slice(1);
 
@@ -80,13 +73,8 @@ export default function Features() {
     }
   };
 
-  // --------------------------------------
-  // собираем фичи / чипы
-  // --------------------------------------
-
   const chips: FeatureChip[] = [];
 
-  // transmission -> Automatic
   if (camper.transmission?.toLowerCase() === "automatic") {
     chips.push({
       label: "Automatic",
@@ -94,7 +82,6 @@ export default function Features() {
     });
   }
 
-  // engine -> Petrol / Diesel ...
   if (camper.engine) {
     chips.push({
       label: prettyEngine(camper.engine),
@@ -102,7 +89,6 @@ export default function Features() {
     });
   }
 
-  // булевые фичи (только те, что true)
   const boolConfigs: BoolFeatureConfig[] = [
     { key: "AC", label: "AC", iconHref: "/sprite.svg#icon-windy" },
     { key: "bathroom", label: "Bathroom", iconHref: "/sprite.svg#icon-bath" },
@@ -128,7 +114,7 @@ export default function Features() {
   ];
 
   boolConfigs.forEach((cfg) => {
-    const value = camper[cfg.key]; // Camper[BoolKey] -> boolean | undefined
+    const value = camper[cfg.key]; 
     if (value) {
       chips.push({
         label: cfg.label,
@@ -136,10 +122,6 @@ export default function Features() {
       });
     }
   });
-
-  // --------------------------------------
-  // Vehicle details
-  // --------------------------------------
 
   const details = [
     { label: "Form", value: prettyForm(camper.form) },
@@ -150,13 +132,8 @@ export default function Features() {
     { label: "Consumption", value: camper.consumption },
   ].filter((item) => item.value);
 
-  // --------------------------------------
-  // RENDER
-  // --------------------------------------
-
   return (
     <div className={css.section}>
-      {/* чипы */}
       <div className={css.chipsRow}>
         {chips.map((chip) => (
           <div key={chip.label} className={css.chip}>

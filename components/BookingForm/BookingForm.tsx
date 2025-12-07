@@ -83,8 +83,8 @@ export default function BookingForm() {
                 selected={values.date}
                 onChange={(date) => setFieldValue("date", date)}
                 placeholderText="Booking date*"
-                className={css.input} // ← класс для инпута календаря
-                calendarClassName={css.calendar} // ← класс для всплывающего календаря
+                className={css.input}
+                calendarClassName={css.calendar}
                 required
               />
               <ErrorMessage name="date" className={css.error} />

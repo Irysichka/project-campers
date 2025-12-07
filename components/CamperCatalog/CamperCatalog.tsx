@@ -17,14 +17,13 @@ export default function CamperCatalog() {
   const favorites = useCampersStore((state) => state.favorites);
   const toggleFavorite = useCampersStore((state) => state.toggleFavorite);
 
-  // один раз при монтировании — загрузить список по дефолтным фильтрам
   useEffect(() => {
     applyFilters();
   }, [applyFilters]);
 
-function capitalize(str: string) {
-  return str.charAt(0).toUpperCase() + str.slice(1);
-}
+  function capitalize(str: string) {
+    return str.charAt(0).toUpperCase() + str.slice(1);
+  }
   return (
     <section className={css.catalog}>
       {loading && <Loading />}
@@ -181,76 +180,6 @@ function capitalize(str: string) {
                       TV
                     </span>
                   )}
-
-                  {/* {camper.radio && (
-                      <span className={css.spanName}>
-                        <svg
-                          className={css.spanSvg}
-                          width="16"
-                          height="16"
-                          aria-hidden="true"
-                        >
-                          <use href="/sprite.svg#icon-radio" />
-                        </svg>
-                        Radio
-                      </span>
-                    )} */}
-
-                  {/* {camper.refrigerator && (
-                      <span className={css.spanName}>
-                        <svg
-                          className={css.spanSvg}
-                          width="16"
-                          height="16"
-                          aria-hidden="true"
-                        >
-                          <use href="/sprite.svg#icon-freeze" />
-                        </svg>
-                        Refrigerator
-                      </span>
-                    )} */}
-
-                  {/* {camper.microwave && (
-                      <span className={css.spanName}>
-                        <svg
-                          className={css.spanSvg}
-                          width="16"
-                          height="16"
-                          aria-hidden="true"
-                        >
-                          <use href="/sprite.svg#icon-Group" />
-                        </svg>
-                        Microwave
-                      </span>
-                    )} */}
-
-                  {/* {camper.gas && (
-                      <span className={css.spanName}>
-                        <svg
-                          className={css.spanSvg}
-                          width="16"
-                          height="16"
-                          aria-hidden="true"
-                        >
-                          <use href="/sprite.svg#icon-stove" />
-                        </svg>
-                        Gas
-                      </span>
-                    )} */}
-
-                  {/* {camper.water && (
-                      <span className={css.spanName}>
-                        <svg
-                          className={css.spanSvg}
-                          width="16"
-                          height="16"
-                          aria-hidden="true"
-                        >
-                          <use href="/sprite.svg#icon-water-outline" />
-                        </svg>
-                        Water
-                      </span>
-                    )} */}
                 </div>
                 <div>
                   <Link href={`/catalog/${camper.id}`}>

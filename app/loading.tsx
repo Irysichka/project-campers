@@ -17,7 +17,6 @@ const Loading = () => {
 				color="#17862c"
 				loading={true}
 				cssOverride={override}
-				// size={150}
 				aria-label="Loading...."
 				data-testid="loader"
 			/>
